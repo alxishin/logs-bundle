@@ -1,0 +1,54 @@
+{% set deep = deep|default(0) %}
+{#{{ dump(data) }}#}
+<table class="table table-bordered table-striped table-hover sonata-ba-list">
+    <thead>
+        <tr class="sonata-ba-list-field-header">
+            {% for header in data|first|keys %}
+                <th class="sonata-ba-list-field-header-many_to_one">{{ header|capitalize }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for key, row in data %}
+            <tr>
+            {% if row is not iterable %}
+                <td class="sonata-ba-list-field sonata-ba-list-field-many_to_one">
+                    {{ key~': '~row }}
+                </td>
+            {% else %}
+                {% for k, column in row %}
+                    <td class="sonata-ba-list-field sonata-ba-list-field-many_to_one">
+                        {% if column is iterable %}
+                          {% if deep == 0 %}
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#{{ k }}-{{ key }}">
+                              {{ k }}
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="{{ k }}-{{ key }}" tabindex="-1" role="dialog" aria-labelledby="{{ k }}-{{ key }}-label">
+                              <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="{{ k }}-{{ key }}-label">{{ k }}</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    {% include _self with {'data': column, 'deep': deep +1} only %}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          {% else %}
+                            <h5>{{ key~':' }}</h5>
+                            {% include _self with {'data': column, 'deep': deep +1} only %}
+                          {% endif %}
+                        {% else %}
+                            {{ column }}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

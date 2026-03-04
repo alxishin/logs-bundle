@@ -1,0 +1,16 @@
+{
+    "name": "alxishin/logs-bundle",
+    "type": "symfony-bundle",
+    "autoload": {
+        "psr-4": {
+            "LogsBundle\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "alxishin",
+            "email": "alxishin@gmail.com"
+        }
+    ],
+    "require": {}
+}

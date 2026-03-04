@@ -1,0 +1,7 @@
+services:
+  _defaults:
+    autowire: true      # Automatically injects dependencies
+    autoconfigure: true
+  LogsBundle\Controller\:
+    resource: '../../Controller'
+    tags: [ 'controller.service_arguments' ]

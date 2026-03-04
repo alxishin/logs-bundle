@@ -1,0 +1,21 @@
+{% extends '@SonataAdmin/standard_layout.html.twig'%}
+
+{% block content %}
+    {% for file in files %}
+      {% if app.request.attributes.get('file') == file %}
+        <strong>{{ file }}</strong>
+      {% else %}
+        <a href="{{ path('admin.logs', {'file': file}) }}">{{ file }}</a>
+      {% endif %}
+      {% if not loop.last %} | {% endif %}
+    {% endfor %}
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <div class="box box-primary">
+                <div class="box-body table-responsive no-padding">
+                    {% include '@Logs/arrayToTable.html.twig' with {'data': result} only %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
